@@ -2,3 +2,6 @@
 body {
     @apply bg-black;
 }
+.click {
+    @apply text-white;
+}

@@ -10,6 +10,7 @@ import PageWrap from './components/PageWrap.vue'
 import Header from './components/Header.vue'
 import FooterInfo from './components/FooterInfo.vue'
 
+// init
 function init() {
     initGraphics()
     initPhysics()
@@ -52,14 +53,6 @@ camera.lookAt(new THREE.Vector3(0, 0, 0))
 scene.add(camera)
 
 function initGraphics() {
-    // const handleResize = () => {
-    //     sizes.width = window.innerWidth
-    //     sizes.height = window.innerHeight
-    //     camera.aspect = sizes.width / sizes.height
-    //     camera.updateProjectionMatrix()
-    //     renderer.setSize(sizes.width, sizes.height)
-    //     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    // }
     window.addEventListener('resize', handleResize)
 
     renderer.shadowMap.enabled = true
@@ -363,7 +356,6 @@ function updatePhysics(deltaTime) {
 }
 
 // input
-
 let clickRequest = false
 window.addEventListener('mousedown', () => !clickRequest && (clickRequest = true), false)
 window.addEventListener('touchstart', () => !clickRequest && (clickRequest = true), false)
@@ -407,6 +399,10 @@ const tick = () => {
 onMounted(() => {
     webgl.value.appendChild(renderer.domElement)
 
+    const tl = gsap.timeline()
+    tl.from('.click', { opacity: 1, duration: 5 })
+    tl.to('.click', { opacity: 0, duration: 2 })
+
     // Ammo
     AmmoLib().then(function (re) {
         Ammo = re
@@ -423,8 +419,11 @@ onBeforeUnmount(() => {
 <template>
     <PageWrap>
         <Header />
-        <div v-if="loading" class="z-10 h-screen inset-0 flex items-center justify-center">
+        <div v-if="loading" class="z-10 h-dvh inset-0 flex items-center justify-center">
             <LoadingIco />
+        </div>
+        <div class="absolute w-full h-dvh flex justify-center items-center">
+            <p class="click text-6xl">CLICK</p>
         </div>
         <div class="outline-none w-full h-dvh" ref="webgl"></div>
 
